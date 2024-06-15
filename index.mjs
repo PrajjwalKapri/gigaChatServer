@@ -46,7 +46,7 @@ app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello sir!");
+  res.send("This is the backend of gigaChat, a real time chat application");
 });
 
 export const userSocketIds = new Map();
