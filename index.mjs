@@ -25,7 +25,6 @@ import adminRoute from "./routes/admin.routes.mjs";
 import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
-import path from "path";
 dotenv.config();
 const app = express();
 app.use(cors(corsOptions));
