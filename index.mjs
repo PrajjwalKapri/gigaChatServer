@@ -7,6 +7,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
 import { corsOptions } from "./constants/config.mjs";
+import path from "path";
 import {
   CHAT_JOINED,
   CHAT_LEAVED,
@@ -24,6 +25,7 @@ import adminRoute from "./routes/admin.routes.mjs";
 import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
+import path from "path";
 dotenv.config();
 const app = express();
 app.use(cors(corsOptions));
@@ -43,6 +45,16 @@ app.use(cookieParser());
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
+
+server.use(express.static(path.join(__dirname, "./client/dist")));
+server.get("*", function (_, resp) {
+  resp.sendFile(
+    path.join(__dirname, "./client/dist/index.html"),
+    function (err) {
+      resp.status(500).send(err);
+    }
+  );
+});
 
 app.get("/", (req, res) => {
   res.send("This is the backend of gigaChat, a real time chat application");
