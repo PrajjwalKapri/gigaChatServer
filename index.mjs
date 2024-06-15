@@ -50,9 +50,13 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
 
-app.use(express.static(path.join(__dirname, "./client/dist")));
+// Static files
+const staticPath = path.join(__dirname, "client/dist");
+app.use(express.static(staticPath));
+
+// Serve index.html for all other routes
 app.get("*", function (_, resp) {
-  resp.sendFile(join(__dirname, "./client/dist/index.html"), function (err) {
+  resp.sendFile(path.join(staticPath, "index.html"), function (err) {
     if (err) {
       resp.status(500).send(err);
     }
