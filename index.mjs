@@ -7,7 +7,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
 import { corsOptions } from "./constants/config.mjs";
-import path from "path";
+import path, { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
 import {
   CHAT_JOINED,
   CHAT_LEAVED,
@@ -29,6 +31,9 @@ dotenv.config();
 const app = express();
 app.use(cors(corsOptions));
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const server = createServer(app);
 const io = new Server(server, { cors: corsOptions });
 app.set("io", io);
@@ -45,14 +50,13 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
 
-server.use(express.static(path.join(__dirname, "./client/dist")));
-server.get("*", function (_, resp) {
-  resp.sendFile(
-    path.join(__dirname, "./client/dist/index.html"),
-    function (err) {
+app.use(express.static(path.join(__dirname, "./client/dist")));
+app.get("*", function (_, resp) {
+  resp.sendFile(join(__dirname, "./client/dist/index.html"), function (err) {
+    if (err) {
       resp.status(500).send(err);
     }
-  );
+  });
 });
 
 app.get("/", (req, res) => {
