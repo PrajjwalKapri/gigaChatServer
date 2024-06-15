@@ -1,0 +1,10 @@
+PORT=
+URL="mongo db url"
+JWT_SECRET=""
+ADMIN_SECRET_KEY=""
+NODE_ENV=""
+CLIENT_URL=
+
+CLOUD_NAME= cloudinary name
+SECRET=cloudinary secret
+API_KEY=cloudinary api key
