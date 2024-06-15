@@ -1,15 +1,12 @@
+import { v2 as cloudinary } from "cloudinary";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import chatRoute from "./routes/chat.routes.mjs";
-import userRoute from "./routes/users.routes.mjs";
-import adminRoute from "./routes/admin.routes.mjs";
-import cookieParser from "cookie-parser";
-import { v4 as uuid } from "uuid";
-import { errorHandlerMiddleware, tryCatch } from "./middlewares/error.mjs";
-import dbConnect from "./utils/dbConnect.mjs";
-import { Server } from "socket.io";
 import { createServer } from "http";
+import { Server } from "socket.io";
+import { v4 as uuid } from "uuid";
+import { corsOptions } from "./constants/config.mjs";
 import {
   CHAT_JOINED,
   CHAT_LEAVED,
@@ -20,11 +17,13 @@ import {
   STOP_TYPING,
 } from "./constants/events.mjs";
 import { getSockets } from "./lib/helper.mjs";
-import Message from "./models/message.models.mjs";
-import { v2 as cloudinary } from "cloudinary";
-import { corsOptions } from "./constants/config.mjs";
 import { socketAuth } from "./middlewares/authenticate.mjs";
-import { set } from "mongoose";
+import { errorHandlerMiddleware } from "./middlewares/error.mjs";
+import Message from "./models/message.models.mjs";
+import adminRoute from "./routes/admin.routes.mjs";
+import chatRoute from "./routes/chat.routes.mjs";
+import userRoute from "./routes/users.routes.mjs";
+import dbConnect from "./utils/dbConnect.mjs";
 dotenv.config();
 const app = express();
 app.use(cors(corsOptions));
