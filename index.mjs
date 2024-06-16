@@ -33,6 +33,7 @@ dotenv.config({
 });
 
 const app = express();
+dbConnect();
 app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 3000;
