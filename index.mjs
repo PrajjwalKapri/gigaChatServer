@@ -54,9 +54,9 @@ cloudinary.config({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/chat", chatRoute);
-app.use("/api/v1/admin", adminRoute);
+app.use("api/v1/user", userRoute);
+app.use("api/v1/chat", chatRoute);
+app.use("api/v1/admin", adminRoute);
 
 // // Static files
 // const staticPath = path.join(__dirname, "client/dist");
