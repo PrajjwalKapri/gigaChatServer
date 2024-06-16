@@ -27,9 +27,17 @@ import adminRoute from "./routes/admin.routes.mjs";
 import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
-dotenv.config();
+
+dotenv.config({
+  path: "./.env",
+});
+
 const app = express();
 app.use(cors(corsOptions));
+
+const PORT = process.env.PORT || 3000;
+export const adminSecretKey = process.env.ADMIN_SECRET_KEY || "admin";
+export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,18 +58,18 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
 
-// Static files
-const staticPath = path.join(__dirname, "client/dist");
-app.use(express.static(staticPath));
+// // Static files
+// const staticPath = path.join(__dirname, "client/dist");
+// app.use(express.static(staticPath));
 
-// Serve index.html for all other routes
-app.get("*", function (_, resp) {
-  resp.sendFile(path.join(staticPath, "index.html"), function (err) {
-    if (err) {
-      resp.status(500).send(err);
-    }
-  });
-});
+// // Serve index.html for all other routes
+// app.get("*", function (_, resp) {
+//   resp.sendFile(path.join(staticPath, "index.html"), function (err) {
+//     if (err) {
+//       resp.status(500).send(err);
+//     }
+//   });
+// });
 
 app.get("/", (req, res) => {
   res.send("This is the backend of gigaChat, a real time chat application");
@@ -145,11 +153,6 @@ io.on("connection", (socket) => {
 
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT || 8080;
-export const adminSecretKey = process.env.ADMIN_SECRET_KEY || "admin";
-export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 server.listen(PORT, () => {
-  dbConnect();
-
   console.log(`Server started on port ${PORT} in ${envMode} mode`);
 });
