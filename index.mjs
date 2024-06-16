@@ -27,6 +27,7 @@ import adminRoute from "./routes/admin.routes.mjs";
 import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
+import "./pingService.mjs";
 
 dotenv.config({
   path: "./.env",
@@ -55,6 +56,13 @@ cloudinary.config({
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Endpoint to handle ping requests (if needed)
+
+app.get("/ping", (req, res) => {
+  res.status(200).send("Server is active");
+});
+
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
