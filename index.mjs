@@ -7,7 +7,6 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
 import { corsOptions } from "./constants/config.mjs";
-import path, { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 import {
@@ -27,8 +26,6 @@ import adminRoute from "./routes/admin.routes.mjs";
 import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
-import "./pingService.mjs";
-import cron from "node-cron";
 
 dotenv.config({
   path: "./.env",
@@ -43,7 +40,6 @@ export const adminSecretKey = process.env.ADMIN_SECRET_KEY || "admin";
 export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const server = createServer(app);
 const io = new Server(server, { cors: corsOptions });
@@ -59,10 +55,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Endpoint to handle ping requests (if needed)
-
-app.get("/ping", (req, res) => {
-  res.status(200).send("Server is active");
-});
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
