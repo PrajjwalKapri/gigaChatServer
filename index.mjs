@@ -28,7 +28,6 @@ import chatRoute from "./routes/chat.routes.mjs";
 import userRoute from "./routes/users.routes.mjs";
 import dbConnect from "./utils/dbConnect.mjs";
 import "./pingService.mjs";
-import express from "express";
 import cron from "node-cron";
 
 dotenv.config({
