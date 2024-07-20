@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { fileURLToPath } from "url";
 import { v4 as uuid } from "uuid";
 import { corsOptions } from "./constants/config.mjs";
-import { fileURLToPath } from "url";
 
 import {
   CHAT_JOINED,
@@ -158,3 +158,5 @@ app.use(errorHandlerMiddleware);
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT} in ${envMode} mode`);
 });
+
+export default server;
