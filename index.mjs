@@ -155,8 +155,10 @@ io.on("connection", (socket) => {
 
 app.use(errorHandlerMiddleware);
 
-server.listen(PORT, () => {
-  console.log(`Server started on port ${PORT} in ${envMode} mode`);
-});
+if (!server.listening) {
+  server.listen(PORT, () => {
+    console.log(`Server started on port ${PORT} in ${envMode} mode`);
+  });
+}
 
 export default server;
