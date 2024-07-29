@@ -39,8 +39,6 @@ const PORT = process.env.PORT || 3000;
 export const adminSecretKey = process.env.ADMIN_SECRET_KEY || "admin";
 export const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 
-const __filename = fileURLToPath(import.meta.url);
-
 const server = createServer(app);
 const io = new Server(server, { cors: corsOptions });
 app.set("io", io);
@@ -155,10 +153,6 @@ io.on("connection", (socket) => {
 
 app.use(errorHandlerMiddleware);
 
-if (!server.listening) {
-  server.listen(PORT, () => {
-    console.log(`Server started on port ${PORT} in ${envMode} mode`);
-  });
-}
-
-export default server;
+server.listen(PORT, () => {
+  console.log(`Server started on port ${PORT} in ${envMode} mode`);
+});
